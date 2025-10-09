@@ -1,6 +1,7 @@
 package com.senai.eventsmanager.controller;
 
-import com.senai.eventsmanager.Enums.UsuarioEnum;
+
+import com.senai.eventsmanager.Enums.EventoEnum;
 import com.senai.eventsmanager.dto.EventoDTO;
 import com.senai.eventsmanager.service.EventoService;
 
@@ -25,12 +26,11 @@ public class EventoController {
         return service.calendario(dataInicio, dataFinal);
 
     }
+    @GetMapping("/tipo/{tipo}")
+    public List<EventoDTO> filtro(@PathVariable ("tipo") EventoEnum tipo) {
+        return service.findByTipo(tipo);
 
-    @GetMapping("/tipo/{1}")
-    public List<EventoDTO> tipoUsuario(@PathVariable String tipo) {
-            return service.tipousario(tipo);
     }
-
     // pegar um evento pelo seu id
     @GetMapping("/{id}")
     public EventoDTO findById(@PathVariable("id") Long id){

@@ -1,0 +1,27 @@
+meta {
+  name: Criar um usuario
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/api/v1/usuario
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+   "senha": "sigma.boys",
+    "telefone": "(48) 99999-9900",
+    "tipo": "3",
+    "cpf": "872.424.070-28",
+    "dataNascimento": "14/01/2009",
+    "email": "sigmab0y@gmail.com",
+    "nome": "sigma"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

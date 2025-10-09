@@ -1,5 +1,6 @@
 package com.senai.eventsmanager.service;
 
+import com.senai.eventsmanager.Enums.UsuarioEnum;
 import com.senai.eventsmanager.dto.UsuarioDTO;
 import com.senai.eventsmanager.entity.Usuario;
 import com.senai.eventsmanager.repository.UsuarioRepository;
@@ -7,6 +8,7 @@ import com.senai.eventsmanager.repository.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,7 +17,29 @@ import java.util.List;
 @Service
 public class UsuarioService {
     @Autowired
-    UsuarioRepository repository;
+     UsuarioRepository repository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public boolean autenticar(String email, String senha){
+        Usuario usuario =  repository.findByEmail(email);
+
+        if (usuario != null) {
+             String senhaNoBanco = usuario.getSenha();
+             return passwordEncoder.matches(senha, senhaNoBanco);
+        }
+        return false;
+    }
+
+    public List<UsuarioDTO> findByTipo(UsuarioEnum tipo){
+        List<Usuario> usuarios =  repository.findByTipo(tipo); 
+        List<UsuarioDTO> usuariosDtos = new ArrayList<>();
+        for (Usuario usuario : usuarios){
+            usuariosDtos.add(toDto(usuario));
+        }
+        return usuariosDtos;
+    }
 
     //método para buscar um usuário pelo id
     public UsuarioDTO findById(Long id) {
@@ -25,8 +49,9 @@ public class UsuarioService {
     //método para salvar um usuário
     public UsuarioDTO save(UsuarioDTO usuarioDto) {
         Usuario usuario = toEntity(usuarioDto);
-        usuario.setCreatedAt(LocalDateTime.now());
-        usuario.setUpdatedAt(LocalDateTime.now());
+        String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+        
+        usuario.setSenha(senhaCriptografada);
         usuario = repository.save(usuario);
         return toDto(usuario);
      }

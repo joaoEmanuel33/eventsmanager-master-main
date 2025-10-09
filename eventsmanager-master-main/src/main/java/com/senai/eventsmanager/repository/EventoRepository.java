@@ -1,5 +1,6 @@
 package com.senai.eventsmanager.repository;
 
+import com.senai.eventsmanager.Enums.EventoEnum;
 import com.senai.eventsmanager.entity.Evento;
 
 import java.time.LocalDateTime;
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Long> {
+    @Query("SELECT e FROM Evento e WHERE e.tipo = :tipo")
+    List<Evento> findByTipo(EventoEnum tipo);
     @Query("SELECT e FROM Evento e WHERE e.dataInicio BETWEEN :inicio  AND :fim OR e.dataFinal BETWEEN :inicio AND :fim")
     List<Evento> calendario(LocalDateTime inicio, LocalDateTime fim);
-    List<Evento> tipousuario(String cliente);
 
 }

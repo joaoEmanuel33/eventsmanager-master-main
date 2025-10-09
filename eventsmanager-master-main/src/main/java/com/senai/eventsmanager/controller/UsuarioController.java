@@ -1,7 +1,11 @@
 package com.senai.eventsmanager.controller;
 
+import com.senai.eventsmanager.Enums.UsuarioEnum;
 import com.senai.eventsmanager.dto.UsuarioDTO;
 import com.senai.eventsmanager.service.UsuarioService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +21,11 @@ public class UsuarioController {
     public UsuarioDTO findById(@PathVariable("id") Long id){
         return service.findById(id);
     }
-    // pegar todos os usuarios
+    @GetMapping("/filtro/{filtro}")
+    public List<UsuarioDTO> filtro(@PathVariable("tipo") UsuarioEnum tipo){
+        return service.findByTipo(tipo);
+    }
+
     @GetMapping
     public List<UsuarioDTO> findAll(){
         return service.findAll();
@@ -25,7 +33,7 @@ public class UsuarioController {
     // salvar um usuario
     @PostMapping
     public UsuarioDTO save(
-            @RequestBody UsuarioDTO usuarioCreateDTO ){
+            @RequestBody @Valid UsuarioDTO usuarioCreateDTO ){
         return service.save(usuarioCreateDTO);
     }
     // atualizar um usuario

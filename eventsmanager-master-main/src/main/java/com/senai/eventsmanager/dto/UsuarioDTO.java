@@ -31,8 +31,7 @@ public class UsuarioDTO {
     @Email(message = "Email inválido")
     private String email;
 
-    @NotBlank(message = "A senha deve ser preenchida")
-    @Size(max = 35, message = "A senha deve ter no maximo 35 caracteres")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
     @NotBlank(message = "O nome deve ser preenchido")

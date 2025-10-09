@@ -1,5 +1,6 @@
 package com.senai.eventsmanager.service;
 
+import com.senai.eventsmanager.Enums.EventoEnum;
 import com.senai.eventsmanager.dto.EventoDTO;
 import com.senai.eventsmanager.entity.Evento;
 import com.senai.eventsmanager.repository.EventoRepository;
@@ -7,8 +8,7 @@ import com.senai.eventsmanager.repository.EventoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +20,15 @@ import java.util.List;
 public class EventoService {
     @Autowired
     private EventoRepository eventoRepository;
+
+    public List<EventoDTO> findByTipo(EventoEnum tipo){
+        List<Evento> eventos = eventoRepository.findByTipo(tipo);
+        List<EventoDTO> eventosDtos = new ArrayList<>();
+        for (Evento evento : eventos){
+            eventosDtos.add(toDto(evento));
+        }
+        return eventosDtos;
+    }
 
     public EventoDTO findById(Long id) {
         //retorna um entidade Evento
@@ -70,15 +79,6 @@ public class EventoService {
         return eventoDTOs;
     }
 
-    public List<EventoDTO> tipoUsuario(String tipo){
-        List<Evento> eventos = eventoRepository.tipousuario(tipo);
-        for(Evento evento : eventos){
-            eventoDTOs.add(toDto(evento));
-        }
-        return eventoDTOs;
-    }
-       
-
        public EventoDTO toDto(Evento evento){
         EventoDTO dto = new EventoDTO();
         BeanUtils.copyProperties(evento, dto);
@@ -89,4 +89,5 @@ public class EventoService {
         BeanUtils.copyProperties(dto, evento);
         return evento;
     }
+
 }
