@@ -6,10 +6,15 @@ meta {
 
 get {
   url: http://localhost:8080/api/v1/usuario
-  body: none
-  auth: inherit
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaWdtYWJveUBnbWFpbC5jb20iLCJpYXQiOjE3NjAwNDA0NzAsImV4cCI6MTc2MDA1NDg3MH0.07fStVa1aocNeKTKaJx-xGytvLBzIK0mEW3V0r5If7Q
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
