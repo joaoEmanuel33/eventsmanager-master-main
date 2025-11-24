@@ -1,5 +1,6 @@
 package com.senai.eventsmanager.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -40,12 +41,10 @@ public class EventoDTO {
     private String local;
 
     @NotNull(message = "A data deve ser preenchida")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private LocalDateTime dataInicio;
+    private String dataInicio;
 
     @NotNull(message = "A data de finalização deve ser preenchida")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private LocalDateTime dataFinal;
+    private String dataFinal;
 
 
     private String linkEvento;

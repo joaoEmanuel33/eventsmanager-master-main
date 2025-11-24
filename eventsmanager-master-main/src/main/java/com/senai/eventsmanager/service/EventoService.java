@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +20,8 @@ import java.util.List;
 public class EventoService {
     @Autowired
     private EventoRepository eventoRepository;
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public List<EventoDTO> findByTipo(EventoEnum tipo){
         List<Evento> eventos = eventoRepository.findByTipo(tipo);
@@ -87,6 +89,8 @@ public class EventoService {
     public Evento toEntity(EventoDTO dto){
         Evento evento = new Evento();
         BeanUtils.copyProperties(dto, evento);
+        evento.setDataInicio(LocalDateTime.parse(dto.getDataInicio().replace("T", " "), formatter));
+        evento.setDataFinal(LocalDateTime.parse(dto.getDataFinal().replace("T", " "), formatter));
         return evento;
     }
 

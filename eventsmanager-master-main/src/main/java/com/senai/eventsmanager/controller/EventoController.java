@@ -6,6 +6,7 @@ import com.senai.eventsmanager.dto.EventoDTO;
 import com.senai.eventsmanager.service.EventoService;
 
 import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/evento")
+@CrossOrigin
+@Log4j2
 //  http://localhost:8080/api/v1/evento/1
 public class EventoController {
 
@@ -45,7 +48,9 @@ public class EventoController {
     @PostMapping
     public EventoDTO save(
             @RequestBody @Valid EventoDTO eventoCreateDTO ){
-        return service.save(eventoCreateDTO);
+                log.info(eventoCreateDTO.toString());
+        return
+        service.save(eventoCreateDTO);
     }
     // atualizar um evento
     @PutMapping("/{id}")
