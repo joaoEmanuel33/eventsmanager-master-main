@@ -5,6 +5,7 @@ import com.senai.eventsmanager.dto.EventoDTO;
 import com.senai.eventsmanager.entity.Evento;
 import com.senai.eventsmanager.repository.EventoRepository;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Log4j2
 public class EventoService {
     @Autowired
     private EventoRepository eventoRepository;
@@ -70,7 +72,7 @@ public class EventoService {
     }
 
     public List<EventoDTO> calendario(String inicio, String fim){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDateTime inicioFormatado = LocalDate.parse(inicio, formatter).atStartOfDay();
         LocalDateTime fimFormDate = LocalDate.parse(fim, formatter).atStartOfDay();
         List<Evento> eventos = eventoRepository.calendario(inicioFormatado, fimFormDate);
@@ -82,15 +84,24 @@ public class EventoService {
     }
 
        public EventoDTO toDto(Evento evento){
+           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         EventoDTO dto = new EventoDTO();
         BeanUtils.copyProperties(evento, dto);
+        dto.setDataInicio(evento.getDataInicio().format(formatter));
+        dto.setDataFinal(evento.getDataFinal().format(formatter));
+           log.warn("start: " + dto.getDataInicio());
+           log.warn("fim: " + dto.getDataFinal());
         return dto;
     }
     public Evento toEntity(EventoDTO dto){
         Evento evento = new Evento();
         BeanUtils.copyProperties(dto, evento);
+        log.warn("start: " + dto.getDataInicio());
+        log.warn("fim: " + dto.getDataFinal());
         evento.setDataInicio(LocalDateTime.parse(dto.getDataInicio().replace("T", " "), formatter));
         evento.setDataFinal(LocalDateTime.parse(dto.getDataFinal().replace("T", " "), formatter));
+        log.warn("start: " + evento.getDataInicio());
+        log.warn("start: " + evento.getDataInicio());
         return evento;
     }
 
