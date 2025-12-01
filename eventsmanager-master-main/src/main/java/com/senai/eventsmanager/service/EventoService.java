@@ -59,6 +59,7 @@ public class EventoService {
     public void deleteById(Long id){
         eventoRepository.deleteById(id);
     }
+
     //método para listar todos os eventos
     public List<EventoDTO> findAll(){
         List<Evento> eventos = eventoRepository.findAll();

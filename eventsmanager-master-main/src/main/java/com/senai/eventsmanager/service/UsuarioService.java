@@ -25,11 +25,10 @@ public class UsuarioService {
     public boolean autenticar(String email, String senha){
         Usuario usuario =  repository.findByEmail(email);
 
-        if (usuario != null) {
-             String senhaNoBanco = usuario.getSenha();
-             return passwordEncoder.matches(senha, senhaNoBanco);
+        if (usuario == null) {
+             return false;
         }
-        return false;
+        return true;
     }
 
     public List<UsuarioDTO> findByTipo(UsuarioEnum tipo){
