@@ -55,4 +55,8 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Inscricao> inscricoes;
 
+    public Usuario(Long id){
+        this.id = id;
+    }
+
 }

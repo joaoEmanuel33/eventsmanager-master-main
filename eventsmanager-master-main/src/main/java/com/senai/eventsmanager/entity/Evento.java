@@ -57,5 +57,8 @@ public class Evento {
     @OneToMany(mappedBy = "evento")
     private List<Inscricao> inscricoes;
 
+    public Evento(Long id){
+        this.id = id;
+    }
     
 }
